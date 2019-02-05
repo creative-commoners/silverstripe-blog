@@ -110,13 +110,11 @@ class BlogController extends PageController
         if ($urlSegment) {
             $filter = URLSegmentFilter::create();
             // If multibyte is enabled, the value is already pre-encoded in the DB.
-            // See https://github.com/silverstripe/silverstripe-cms/pull/2365
-            if (!$filter->getAllowMultibyte()) {
-                $urlSegment = rawurlencode($urlSegment);
-            }
+            // https://github.com/silverstripe/silverstripe-cms/pull/2365 in CMS ^4.3 handles this logic, but
+            // earlier versions do not. We filter on both values to compensate for this.
 
             return Member::get()
-                ->filter('URLSegment', $urlSegment)
+                ->filter('URLSegment', [$urlSegment, rawurlencode($urlSegment)])
                 ->first();
         }
 

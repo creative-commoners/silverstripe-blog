@@ -3,6 +3,7 @@
 namespace SilverStripe\Blog\Model;
 
 use PageController;
+use function rawurldecode;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPResponse_Exception;
 use SilverStripe\Control\RSS\RSSFeed;
@@ -115,6 +116,7 @@ class BlogController extends PageController
             // ModelAsController, but not necessarily to DataLists. This logic handles all three cases.
 
             return Member::get()
+//                ->filter('URLSegment', $filter->filter($urlSegment))
                 ->filter('URLSegment', [$filter->filter($urlSegment), rawurldecode($urlSegment), $urlSegment])
                 ->first();
         }

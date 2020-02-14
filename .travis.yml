@@ -1,10 +1,12 @@
 sudo: false
 
+dist: trusty
+
 language: php
 
 env:
   global:
-    - COMPOSER_ROOT_VERSION="4.0.x-dev"
+    - COMPOSER_ROOT_VERSION="3.1.x-dev"
 
 matrix:
   include:
@@ -25,7 +27,7 @@ before_script:
 
 # Install composer dependencies
   - composer validate
-  - composer require --no-update silverstripe/installer:4.0.x-dev silverstripe/widgets:2.x-dev
+  - composer require --no-update silverstripe/installer:~4.0.0 silverstripe/widgets:2.x-dev
   - if [[ $DB == PGSQL ]]; then composer require --no-update silverstripe/postgresql:2.0.x-dev; fi
   - composer install --prefer-dist --no-interaction --no-progress --no-suggest --optimize-autoloader --verbose --profile
 
